@@ -8,7 +8,7 @@ echo
 
 
 
-bg_dark='rgba(6,8,10,1)'
+bg_dark='rgba(3,4,5,1)'
 fg_white='rgba(240,245,240,1)'
 fg_gray='rgba(200,205,200,1)'
 green_brit='rgba(130,250,130,1)'
