@@ -1,0 +1,3 @@
+xxd $1 > ~/bin/hex.temp
+python ~/bin/hexformat.py ~/bin/hex.temp $2
+rm ~/bin/hex.temp
