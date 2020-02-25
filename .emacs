@@ -27,12 +27,23 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
-(global-unset-key (kbd "C-j")) ;; to use as special key for tmux
+
+(global-unset-key (kbd "C-q")) ;; to use as special key for tmux
+(global-set-key (kbd "M-q") 'quoted-insert) ;; replace quoted insert
+
 (global-unset-key (kbd "C-z")) ;; so that we can use my jikm config within emacs
 (global-set-key (kbd "C-z h") 'split-window-below)
+(global-set-key (kbd "C-z v") 'split-window-right)
+(global-set-key (kbd "C-z k") 'windmove-right)
+(global-set-key (kbd "C-z j") 'windmove-left)
+(global-set-key (kbd "C-z i") 'windmove-up)
+(global-set-key (kbd "C-z m") 'windmove-down)
+(global-set-key (kbd "C-z x") 'delete-window)
+
 (global-set-key (kbd "C-x %") 'query-replace)
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
+(global-set-key (kbd "C-c C-t") 'ansi-term)
 
 (global-set-key (kbd "C-c C-x") 'kmacro-bind-to-key)
 
