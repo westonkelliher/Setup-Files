@@ -1,0 +1,5 @@
+export PATH="$PATH:/home/dale/bin/l"
+tmux split-window -h -c "#{pane_current_path}"
+tmux resize-pane -L 30
+clear
+lst

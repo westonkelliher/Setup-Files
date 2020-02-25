@@ -1,0 +1,9 @@
+cd ${1-.}
+clear
+sleep .01
+currentdir="$(pwd)"
+tmux send-keys -t 0 "cd ${currentdir}" Enter
+tmux send-keys -t 0 "clear" Enter
+tmux send-keys -t 0 "lst . $2" Enter
+
+
