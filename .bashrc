@@ -2,6 +2,7 @@
 
 alias emacs="emacs -nw"
 alias d="source d"
+alias l="source l"
 
 # runs on: interactive non-login shell
 
@@ -153,7 +154,7 @@ function debug() {
 
 
 export PATH="$PATH:/home/multi/tools_devl/latest/linux64-ide/"
-export PATH="$PATH:~/bin/"
+export PATH="$PATH:/home/dale/bin/"
 
 MY_RTOS_DIR=/home/dale/rtos/new
 export PATH="$MY_RTOS_DIR/modules/ghs/rust/bin/linux64:$PATH"
