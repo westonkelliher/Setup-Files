@@ -1,3 +1,15 @@
-cd ${1-.}
+#!/bin/bash
+
+if [ "$1" == "," ]; then
+    cd $(cat /home/dale/bin/.last_d)
+else
+    cd ${1:-.}
+fi
+
 clear
-ls -a
+ls --ignore="*.pyc" -a
+
+if [ "$1" != "," ] && [ "$2" != "-nosave" ]; then
+    echo "$(pwd)" > /home/dale/bin/.last_d
+fi
+   
