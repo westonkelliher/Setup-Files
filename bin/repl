@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#usage `repl <file> <match> <replace>`
+
+sed ':a;N;$!ba;s/\n/Q@X%/g' $1 > /home/dale/bin/.repl
+match=$(echo "$2" | sed 's/\\n/Q@X%/g')
+#echo "s/$match/$3/g"
+cat /home/dale/bin/.repl | sed "s/$match/$3/g" | sed 's/Q@X%/\n/g'
