@@ -72,7 +72,6 @@ def command(cmd):
 def addNub(father, nubstr):
     NUBLIST.append(nubstr + '\n')
     nub = len(NUBLIST)
-    print(NUBLIST)
     HIER.append([father])
     HIER[father].append(nub)
 
@@ -83,12 +82,12 @@ def addNub(father, nubstr):
 def current_branch():
     return ''.join(_current_branch(CURRENT))
 def _current_branch(nub):
-    print(nub)
+    #print(nub)
     f = father(nub)
     if f == 0:
         return [nubstr_fmt(nub)]
     pre = _current_branch(f)
-    print(pre)
+    #print(pre)
     pre.append("  "*len(pre) + nubstr_fmt(nub))
     return pre
 
@@ -107,8 +106,8 @@ def hierString(hier, current):
 def main():
     global NUBLIST, HIER, CURRENT, COLORS, NOTES
     nubdir=sys.argv[1]
-    nublist_f = open(nubdir+"/nublist", "r+")
-    nubhier_f = open(nubdir+"/nubhier", "r+")
+    nublist_f = open(nubdir+"/nublist", "a+")
+    nubhier_f = open(nubdir+"/nubhier", "a+")
     NUBLIST = nublist_f.readlines()
     NOTES = [nubdir+'/'+str(n+1)+".txt" if
              path.exists(nubdir+'/'+str(n+1)+".txt") else None

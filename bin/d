@@ -1,7 +1,16 @@
 #!/bin/bash
 
 if [ "$1" == "," ]; then
-    cd $(cat /home/dale/bin/.last_d)
+    cd $(cat /home/dale/bin/.d/.last_d)
+elif [ "$1" == "-s" ]; then
+    if [ -z $3 ]; then
+	printf "Improper use. Should be:\n\`d <path> -s <save_name>\`\n"
+	return
+    fi
+    cd ${3:-.}
+    echo "$(pwd)" > "$BASE_DIR/bin/.d/${2-.default_save}"
+elif [ "$1" == "-l" ]; then
+    cd $(cat "$BASE_DIR/bin/.d/${2-.default_save}")
 else
     cd ${1:-.}
 fi
@@ -9,7 +18,9 @@ fi
 clear
 ls --ignore="*.pyc" -a
 
-if [ "$1" != "," ] && [ "$2" != "-nosave" ]; then
-    echo "$(pwd)" > /home/dale/bin/.last_d
+if [ "$2" == "-s" ]; then
+    echo "$(pwd)" > "$BASE_DIR/bin/.d/${3-.default_save}"
+elif [ "$1" != "," ] && [ "$2" != "-nosave" ]; then
+    echo "$(pwd)" > $BASE_DIR/bin/.d/.last_d
 fi
    

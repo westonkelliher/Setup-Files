@@ -1,0 +1,9 @@
+#!/bin/bash
+
+f=/home/dale/bin/$1
+
+echo "#!/bin/bash" > $f
+echo "" >> $f
+chmod +x $f
+sleep 0.1
+emacs -nw $f

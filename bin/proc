@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ $1 = "meet" ]]; then
+    emacs -nw $NOTES/proc/meetings
+elif [[ $1 = "over" ]]; then
+    emacs -nw $NOTES/proc/overviews    
+elif [[ $1 = "proc" ]]; then
+    emacs -nw $NOTES/proc/proc
+elif [[ $1 = "todo" ]]; then
+    emacs -nw $NOTES/proc/todo
+elif [[ $1 = "script" ]]; then
+    emacs -nw $NOTES/proc/script
+elif [[ -z $1 ]]; then
+    emacs -nw $NOTES/proc/proc
+else
+    echo "bad argument to proc"
+fi

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+x=$(pwd)
+cd ${1:-.}
+cd ..
+checkout=$(pwd | sed 's/.*\///')
+target="$WKELLIHER/mybranch/saves/diffs/$checkout.diff"
+
+cd $x
+branch_diff ${1:-.} > $target

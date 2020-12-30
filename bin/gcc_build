@@ -1,0 +1,2 @@
+rustc -g --emit obj src/main.rs
+gcc -G -x86_64 -dwarf2dbo -L /home/eng/users/wkelliher/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/ -llibstd-9d59e25e2eb2384d.so -L /lib/x86_64-linux-gnu -llibgcc_s.so.1 main.o -o main
