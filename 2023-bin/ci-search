@@ -1,0 +1,3 @@
+#!/bin/bash
+
+svn log --limit 5000 | grep -B 1 -A 5 "$@"

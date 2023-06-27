@@ -1,0 +1,4 @@
+#!/bin/bash
+PROG=$1
+shift
+multi $(which $PROG) -- "$@"

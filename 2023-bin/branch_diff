@@ -1,0 +1,5 @@
+#!/bin/bash
+for x in $(branch_changes ${1:-.})
+do
+    svn diff $x
+done

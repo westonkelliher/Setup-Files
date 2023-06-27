@@ -1,0 +1,37 @@
+#!/bin/bash
+
+_diffman() {
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="apply strip new init reference list rm ignore view"
+
+    if [[ ${COMP_CWORD} -eq 1 ]]; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+    fi
+
+    case "${prev}" in
+        apply|strip|rm|view)
+            local patches=$(ls ./.diffman | grep "\.diff$" | sed 's/\.diff//')
+            COMPREPLY=($(compgen -W "${patches}" -- "${cur}"))
+            ;;
+        new)
+            COMPREPLY=($(compgen -W "temp" -- "${cur}"))
+            ;;
+        reference)
+            compopt -o filenames 2>/dev/null
+            COMPREPLY=($(compgen -f  -- "${cur}"))
+            ;;
+        ignore)
+            compopt -o filenames 2>/dev/null
+            COMPREPLY=($(compgen -f  -- "${cur}"))
+            ;;
+    esac
+
+
+}
+complete -F _diffman diffman
+complete -F _diffman dm
+complete -F _diffman dmd

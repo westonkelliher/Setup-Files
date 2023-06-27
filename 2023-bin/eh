@@ -1,0 +1,3 @@
+#!/bin/bash
+
+emacs -nw /mnt/space/LC/equitable_hours/weston_kelliher/Oct2022

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd $MYTEST
+si multi $MYTOOLS/linux64-comp/intex
+
+# Note that after running this script you should specify the arguments to intex
+# before running the code in multi.
+# Get the arguments you want to intex by doing an advanced build with show commands/subcommands

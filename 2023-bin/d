@@ -1,0 +1,65 @@
+#!/bin/bash
+
+RED='\033[1;31m'
+RED_='\033[4;31m'
+NC='\033[0m' #no color
+
+if [ -z $BASE_DIR ]; then
+    BASE_DIR="~"
+fi
+
+if [ ! -f $BASE_DIR/bin/.d/.map]; then
+    touch $BASE_DIR/bin/.d/.map
+fi
+
+if [ "$1" == "," ]; then
+    #cd $(cat /home/dale/bin/.d/.last_d)
+    dest=$(d.py get_dir $BASE_DIR/bin/.d/.map .last_d)
+    cd $dest
+elif [ "$1" == "-s" ]; then
+    echo abc
+    if [ -z $3 ]; then
+	printf "Improper use. Should be:\n\`d <path> -s <save_name>\`\n"
+        return
+    fi
+    #cd ${1:-.}
+    #echo "$(pwd)" > "$BASE_DIR/bin/.d/${2-.default_save}"
+elif [ "$1" == "-l" ]; then
+    dest=$(d.py get_dir $BASE_DIR/bin/.d/.map ${2-.default_save})
+    echo $dest
+    cd $dest
+elif [[ $1 =~ ^-[0-9] ]]; then
+    q=${1:1:3}
+    echo $q
+    for (( i=0; i<$q; i++ )); do
+        cd ..
+    done    
+elif [ ! -d $1 ]; then
+    echo "'$1' is not a directory"
+    return
+else
+    cd ${1:-.}
+fi
+
+clear
+dirname=$(d.py get_name $BASE_DIR/bin/.d/.map $(pwd))
+if [ ! -z $dirname ]; then
+    tmux rename-window $dirname
+    printf "${RED}${RED_} $dirname ${NC}\n"
+fi
+hiddens=$(ls --color=always --group-directories-first .* -dX)
+if [ ! -z "$hiddens" ]; then
+    echo $hiddens
+    echo
+fi
+ls --color=always --group-directories-first -X
+echo
+
+if [ "$2" == "-s" ]; then
+    d.py add $BASE_DIR/bin/.d/.map ${3-.default_save} $(pwd)
+    #echo "$(pwd)" > "$BASE_DIR/bin/.d/${3-.default_save}"
+elif [ "$1" != "," ] && [ "$2" != "-nosave" ]; then
+    d.py add $BASE_DIR/bin/.d/.map .last_d $(pwd)
+    #echo "$(pwd)" > $BASE_DIR/bin/.d/.last_d
+fi
+   

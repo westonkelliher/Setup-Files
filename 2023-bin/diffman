@@ -1,0 +1,239 @@
+#!/bin/bash
+
+################################################################################
+
+# returns 0 if not applied, 1 if it is applied, 2 if it is conflicting, 3 if it is invalid
+patch_status () {
+    patch -lp0 --follow-symlinks --dry-run < .diffman/$1.diff >.diffman/.problem 2>.diffman/.error
+    cant_apply=$?
+    patch -Rlp0 --follow-symlinks --dry-run < .diffman/$1.diff >/dev/null 2>/dev/null
+    cant_strip=$?
+    if [[ $cant_apply != 0 ]];then
+        if [[ $cant_strip != 0 ]]; then
+            if [[ $cant_apply == 1 ]];then
+                return 3
+            fi
+            return 2
+        else
+            return 1
+        fi
+    else
+        return 0
+    fi
+}
+
+# get all the *.diff files in .diffman with status $1
+diffs_of_status () {
+    for x in $(ls .diffman | grep "\.diff$" | sed 's/\(.*\)\.diff/\1/'); do
+        patch_status $x 
+        if [ $? == $1 ]; then
+            echo "$x"
+        fi
+    done
+ }
+
+# show all the diffs and their statuses
+do_list () {
+    x=$(diffs_of_status 1)
+    if [[ "$x" != "" ]]; then
+        echo "applied:"
+        for y in $(echo $x); do
+            echo "* $y"
+        done
+        echo
+    fi
+    x=$(diffs_of_status 0)
+    if [[ "$x" != "" ]]; then
+        echo "available:"
+        for y in $(echo $x); do
+            echo "* $y"
+        done
+        echo
+    fi
+    x=$(diffs_of_status 3)
+    if [[ "$x" != "" ]]; then
+        echo "conflicting:"
+        for y in $(echo $x); do
+            echo "* $y"
+        done
+        echo
+    fi
+    x=$(diffs_of_status 2)
+    if [[ "$x" != "" ]]; then
+        echo "invalid:"
+        for y in $(echo $x); do
+            echo "* $y"
+        done
+        echo
+    fi
+}
+
+################################################################################
+
+# no arguments specified
+if [ $# == 0 ]; then
+    echo  "specify subcommand {apply, strip, list, init}"
+    exit
+fi
+
+# diffman init
+if [[ "$1" == "init" ]]; then
+    if [ -d ".diffman" ]; then
+        echo "already a diffman repo"
+        exit
+    fi
+    mkdir .diffman
+    echo ".diffman" > .diffman/ignore
+    exit
+fi
+
+# check that this is a diffman directory
+if [ ! -d ".diffman"  ]; then
+    echo "$(pwd) is not a diffman repo"
+    echo "try \`diffman init\`"
+    exit
+fi
+
+# diffman list
+if [[ "$1" == "list" ]]; then
+    do_list
+    exit
+fi
+
+
+# diffman ignore
+if [[ "$1" == "ignore" ]]; then
+    if [ $# != 2 ]; then
+        echo "usage: diffman ignore \"<pattern>\""
+        exit
+    fi
+    echo "$2" >> .diffman/ignore
+
+    exit
+fi
+
+
+# diffman reference
+if [[ "$1" == "reference" ]]; then
+    if [ $# != 2 ]; then
+        echo "usage: diffman reference <refdir>"
+        exit
+    fi
+    if [ ! -d $2 ]; then
+        echo "\"$2\" is not a directory"
+        echo "specify the name of the directory you wish to diff this directory against"
+        exit
+    fi
+    echo $2 > .diffman/reference
+    exit
+fi
+
+# diffman new
+if [[ "$1" == "new" ]]; then
+    if [ $# != 2 ]; then
+        echo "usage: diffman new <diffname>"
+        exit
+    fi
+    if [ ! -f ".diffman/reference" ]; then
+        echo "diffman has no reference to diff against"
+        echo "try \`diffman reference\`"
+        exit
+    fi
+    if [ -f ".diffman/$2.diff" ] && [ ! "$2" == "temp" ]; then
+        echo ".diffman/$2.diff already exists"
+        exit
+    fi
+    ref=$(cat .diffman/reference)
+    if [ ! -d $ref ]; then
+        echo "\"$ref\" in .diffman/reference is not a directory"
+        echo ".diffman/reference should contain the name of the directory you wish to diff this directory against"
+        exit
+    fi
+    if [ -f ".diffman/ignore" ]; then
+        diff -NurwB -X .diffman/ignore $ref ./ | sed '/Binary files /d' > .diffman/$2.diff
+    else
+        diff -NurwB $ref ./ | sed '/Binary files /d' > .diffman/$2.diff
+    fi
+    cp .diffman/$2.diff $ref/.diffman/
+    exit
+fi
+
+# diffman rm
+if [[ "$1" == "rm" ]]; then
+    if [ $# != 2 ]; then
+        echo "usage: diffman rm <diffname>"
+        exit
+    fi
+    if [ ! -f ".diffman/$2.diff" ]; then
+        echo ".diffman/$2.diff doesn't exist"
+        exit
+    fi
+    rm .diffman/$2.diff
+    exit
+fi
+
+# diffman view
+if [[ "$1" == "view" ]]; then
+    if [ $# != 2 ]; then
+        echo "usage: diffman view <diffname>"
+        exit
+    fi
+    if [ ! -f ".diffman/$2.diff" ]; then
+        echo ".diffman/$2.diff doesn't exist"
+        exit
+    fi
+    emacs -nw .diffman/$2.diff
+    exit
+fi
+
+# invalid subcommand
+if [[ "$1" != "apply" && "$1" != "strip" ]]; then
+    echo  "Invalid subcommand. Try one of {list, apply, strip, new, rm}."
+    exit
+fi
+
+# no argument to apply/diff
+if [ $# != 2 ]; then
+    echo "usage: diffman [apply|strip] <diffname>"
+    exit
+fi
+
+# check that the specified diff exists
+if [ ! -f ".diffman/$2.diff" ]; then
+    echo "did not find $2.diff"
+    exit
+fi
+
+# validate status of specified diff
+patch_status $2
+status=$?
+if [[ $status == 3 ]]; then
+    echo "problem with $2.diff"
+    echo "\`patch -lp0 --follow-symlinks --dry-run < .diffman/$2.diff\` gives:"
+    echo "'''"
+    cat .diffman/.problem
+    echo "'''"
+    echo
+    echo "No changes applied."
+    exit
+fi
+
+# try to apply
+if [[ "$1" == "apply" ]]; then
+    if [ $status == 1 ]; then
+        echo "$2 is already applied"
+        exit
+    fi
+    patch -lsp0 --follow-symlinks < .diffman/$2.diff #TODO: -s once reliable
+
+# try to strip
+elif [[ "$1" == "strip" ]]; then
+    if [ $status == 0 ]; then
+        echo "$2 is not applied"
+        exit
+    fi
+    patch -R -lsp0 --follow-symlinks < .diffman/$2.diff #TODO: -s once reliable
+
+fi
+
+

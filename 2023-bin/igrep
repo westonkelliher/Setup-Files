@@ -1,0 +1,10 @@
+#!/bin/bash
+
+grep --exclude-dir="rtos_val" --exclude-dir="tutorials" --exclude-dir="examples" \
+     --exclude-dir="posix178b" --exclude-dir="perl" \
+     --exclude-dir="direct-wrappers" \
+     --include="*.c" --include="*.h" -nre $@
+
+     # not considering posix178b becuase this is not 178b
+     # - I don't understand why we even have posix178b, we use posix and posix_sys
+     # not considering modules/perl because it is a dynamic download

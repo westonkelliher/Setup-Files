@@ -1,0 +1,10 @@
+#!/bin/bash
+
+test $# -ne 2 && echo "Usage: $0 svn_diff_file exclude_pattern !!! ($# given) !!!" && exit 1
+
+ignore=0
+while IFS= read -r line; do
+    echo $line | grep -q -e "^Index: " && ignore=0
+    echo $line | grep -e "^Index: " | grep -q -e "^Index: $2" && ignore=1
+    test $ignore -eq 0 && echo "$line"
+done < $1

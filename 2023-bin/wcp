@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat /home/dale/temp/dawn_bin_dir | xclip -selection clipboard

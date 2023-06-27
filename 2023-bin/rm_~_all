@@ -1,0 +1,18 @@
+#!/bin/bash
+for f in $(find ${1-.} | sed 's/.*\///')
+do
+    # *~ file and #*# files
+    if [ -f "$f" ]; then
+	if [[ $f =~ ^\#.*\#$|~$ ]]; then
+	    echo "rmv $f"
+	    rmv $f
+	fi
+    fi
+    # .#* files
+    if [ -h "$f" ] && [ ! -e $f ]; then
+	if [[ $f =~ ^\.\# ]]; then
+	    echo "rmv $f"
+	    rmv $f
+	fi
+    fi
+done

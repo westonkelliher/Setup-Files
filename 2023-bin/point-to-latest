@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+
+q=$(ls -lt /tftpboot/ | head -2 | tail -1)
+
+if [[ ! -z $(echo $q | grep monolith) ]]; then
+    echo "monolith is the most recently changed file in /tftpboot/"
+    exit
+fi
+    
+m=$(echo $q  | sed 's/.* //')
+echo "ln -sf /tftpboot/$m /tftpboot/monolith"
+ln -sf /tftpboot/$m /tftpboot/monolith

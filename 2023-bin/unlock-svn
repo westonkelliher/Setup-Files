@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd .svn
+mv wc.db wc.db.old
+echo "in sqlite3 do \`.backup main wc.db\` then \`.exit\`"
+printf ".backup main wc.db" | xclip -selection clipboard
+sqlite3 wc.db.old
+cd ..
+svn cleanup

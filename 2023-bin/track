@@ -1,0 +1,24 @@
+#!/bin/bash
+
+
+let "n=0"
+while [ -f ".track.$n.done" ]; do
+    let "n=n+1"
+done
+
+echo '' > .track.$n.done
+let "i=1"
+dots="..."
+($@ 1> $1.out 2>&1; echo 'done' > .track.$n.done) & \
+    while [ "$(cat .track.$n.done)" == "" ]; do
+	sleep 1
+	clear
+	tail -20 $1.out
+	echo '...' | cut -c1-$i
+	let "i=i+1"
+	if [ "$i" -gt "3" ]; then
+	    let "i=1"
+	fi
+    done
+echo "Finished executing \`$@\`"
+rm ".track.$n.done"

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for x in $(svn st | grep "^A" | sed 's/^.[ \t]*\(.*\)/\1/'); do
+    if [ -f $x ]; then
+        is_file_text.py $x
+        if [ $? == 1 ]; then
+            set-svn-text-props $x
+        else
+            set-svn-bin-props $x 2>/dev/null
+        fi
+    fi
+done

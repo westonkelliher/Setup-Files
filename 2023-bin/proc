@@ -1,0 +1,21 @@
+#!/bin/bash
+
+PROC="$BASE_DIR/content/proc"
+
+if [[ $1 = "meet" ]]; then
+    emacs -nw $PROC/meetings
+elif [[ $1 = "over" ]]; then
+    emacs -nw $PROC/overviews    
+elif [[ $1 = "proc" ]]; then
+    emacs -nw $PROC/proc
+elif [[ $1 = "todo" ]]; then
+    emacs -nw $PROC/todo
+elif [[ $1 = "script" ]]; then
+    emacs -nw $PROC/script
+elif [[ $1 = "mile" ]]; then
+    emacs -nw $PROC/milestone
+elif [[ -z $1 ]]; then
+    emacs -nw $PROC/proc
+else
+    echo "bad argument to proc"
+fi

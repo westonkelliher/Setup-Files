@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for x in $(cat temp1); do
+    sudo apt install $x
+    pip3 install $x
+done

@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+fil=$(ls | grep "iot\..*\.patch")
+if [[ -z $fil ]]; then
+    echo "no iot.#.patch"
+    exit
+fi
+
+rev=$(echo $fil | sed 's/iot\.\(.*\)\.patch/\1/')
+
+echo "cd iot_root"
+cd iot_root
+
+echo "svn revert . -R"
+svn revert . -R
+
+echo "svn up -$rev"
+svn up -$rev
+
+echo "patch -p0 < ../$fil"
+patch -p0 < ../$fil

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+ret=$PWD
+cd $(cat .diffman/reference)
+diffman $@
+echo "-------------"
+cd $ret
+diffman $@

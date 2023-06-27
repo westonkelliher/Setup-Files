@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ -z "$NOTES" ]]; then NOTES="/home/dale/content/notes"; fi
+if [[ -z "$BIN" ]]; then BIN="/home/dale/bin"; fi
+cat "$NOTES/acronyms" | python $BIN/acro.py $1

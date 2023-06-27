@@ -1,0 +1,15 @@
+#!/bin/bash
+
+for x in $(ls *$1*); do
+    y=$(echo $x | sed "s/$1/$2/")
+    echo "mv $x $y"
+    if [ -n "$3" ]; then
+        mv $x $y
+    fi
+done
+
+if [ -n "$3" ]; then
+    echo "done"
+else
+    echo "add argument to confirm"
+fi

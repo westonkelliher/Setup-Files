@@ -1,0 +1,3 @@
+#!/bin/bash
+
+grep kernel/api-layer/ appsetup/ asp/arm64/ INTEGRITY-include/ INTEGRITY-libs/ intlib/ intlib_ext/ "$@" | grep -v "/\*.*${@: -1}.*\*/"

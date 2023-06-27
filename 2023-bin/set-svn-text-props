@@ -1,0 +1,11 @@
+#!/bin/bash
+
+svn propget svn:mime-type $1 >/dev/null 2>/dev/null
+if [ $? != 0 ]; then
+	svn propset svn:mime-type text/plain $1
+fi
+
+svn propget svn:eol-style $1 >/dev/null 2>/dev/null
+if [ $? != 0 ]; then
+	svn propset svn:eol-style native $1
+fi

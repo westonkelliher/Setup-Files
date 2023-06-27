@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "-w" == "$1" ]; then
+    svn diff -x -w $2 > /home/dale/temp/sd.diff
+else
+    svn diff $1 > /home/dale/temp/sd.diff
+fi
+emacs -nw /home/dale/temp/sd.diff

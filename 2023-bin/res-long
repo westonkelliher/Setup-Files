@@ -1,0 +1,3 @@
+#!/bin/bash
+
+xrandr --output $(xrandr -q | grep " connected"|cut -f1 -d" " | head -1)  --mode 2560x1080

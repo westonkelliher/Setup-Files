@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo $1/proto/ > /home/dale/temp/dawn_bin_dir

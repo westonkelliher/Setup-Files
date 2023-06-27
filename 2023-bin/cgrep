@@ -1,0 +1,5 @@
+#!/bin/bash
+
+grep --color=always --include="*.c" --include="*.h" --include="*.cc" --include="*.cpp" --include="*.cxx" --include="*.C"\
+     -nre $@
+

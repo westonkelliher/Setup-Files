@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# View the diff of one svn revision
+
+svn diff -c $1 ${2-.} > /home/dale/temp/revis.diff
+emacs -nw /home/dale/temp/revis.diff

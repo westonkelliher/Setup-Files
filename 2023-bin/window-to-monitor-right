@@ -1,0 +1,2 @@
+#!/bin/bash
+xdotool getactivewindow windowmove 3300 350
