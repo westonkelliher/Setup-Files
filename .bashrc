@@ -9,4 +9,4 @@ export PATH="$PATH:~/bin"
 
 source ~/bin/complete_*
 
-BASE_DIR=$(cd ~; pwd)
+export BASE_DIR=$(cd ~; pwd)
