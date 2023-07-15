@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python $BIN/callers.py $@

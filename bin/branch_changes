@@ -1,2 +1,0 @@
-#!/bin/bash
-svn st ${1:-.} | grep -v "default\.gpj" | grep "^M" | sed 's/^M *//'

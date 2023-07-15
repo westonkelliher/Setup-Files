@@ -1,2 +1,0 @@
-#!/bin/bash
-grep -v "svn\|Binary\|INTEGRITY-docs\|autotest\|rtos_val\|modules\|^temp\|\.temp[^a-zA-Z]\|\.diff[^a-zA-Z]"

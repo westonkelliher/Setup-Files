@@ -1,0 +1,23 @@
+#!/bin/bash
+
+_d() {
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    #compopt -o filenames 2>/dev/null
+    COMPREPLY=( $(compgen -f -- ${cur}) )
+    
+    case "${prev}" in
+        -s|-l)
+            local saves=$(d.py keys $BASE_DIR/bin/.d/.map)
+            COMPREPLY=($(compgen -W "${saves}" -- "${cur}"))
+            ;;
+        *)
+            compopt -o filenames 2>/dev/null
+    esac
+
+
+}
+complete -F _d d

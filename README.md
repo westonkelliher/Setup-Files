@@ -1,12 +1,9 @@
 # Setup-Files
 The files I use to setup my terminal, emacs, tmux, etc
 
-## To apply terminal theme:
-```
-./terminal-theme.sh
-```
-- you can also customize the colors by editting the sh file
-- NOTE: works with pantheon terminal only (Lubuntu)
+run `./setup.sh`
+
+or
 
 ## To apply emacs configuration:
 ```

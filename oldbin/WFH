@@ -1,0 +1,3 @@
+#!/bin/bash
+
+vncserver -geometry 2560x1440 -localhost no -SecurityTypes None --I-KNOW-THIS-IS-INSECURE

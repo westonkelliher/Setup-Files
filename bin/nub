@@ -1,2 +1,0 @@
-#!/bin/bash
-python /home/dale/bin/.nub/nub.py /home/dale/bin/.nub $1 "$2"

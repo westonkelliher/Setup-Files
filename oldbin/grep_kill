@@ -1,0 +1,21 @@
+#!/bin/bash
+
+grepstr="$1"
+
+echo "The following programs will be killed:"
+
+ps aux | grep -i "$grepstr" | grep -v "grep"
+echo
+read -p "Kill all of these programs?(y/n)" yn
+
+case $yn in
+    [Yy]* )
+	pid=$(ps aux | grep -i "$grepstr" | grep -v "grep" | sed 's/^[^[:space:]]\+[[:space:]]\+\([0-9]\+\).*/\1/')
+	for x in $pid; do
+	    #echo $x
+	    kill -9 $x
+	done
+	echo "killed";;
+    * ) echo "cancelled"; exit;;
+esac
+

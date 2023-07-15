@@ -1,2 +1,2 @@
-man $1 > ~/.temp.txt
-emacs -nw ~/.temp.txt
+man $1 > ~/.temp.man
+emacsR ~/.temp.man

@@ -1,0 +1,54 @@
+#!/bin/bash
+
+f=".*"
+e="\.switch"
+while (( $# )); do
+    if [[ $1 == '--file' ]] || [[ $1 == '-f' ]]; then
+	shift
+	if [[ $1 ]]; then
+	    f=$1
+	    shift
+	else
+	    echo "no argument to --file"
+	    exit
+	fi
+    elif [[ $1 == '--extension' ]] || [[ $1 == '-e' ]]; then
+	shift
+	if [[ $1 ]]; then
+	    e=$1
+	    shift
+	else
+	    echo "no argument to --extension"
+	    exit
+	fi
+    elif [[ $1 =~ ^- ]]; then
+	echo "no such option: $1"
+	exit
+    else
+	echo "switch takes no direct argument ($1)"
+	exit
+    fi
+done
+
+Y=$(ls | grep "$f.*$e\$")
+
+
+tmp="/tmp/.switch"
+
+for y in $Y; do
+    x=$(echo $y | sed "s/\(.*\)$e\$/\1/")
+    if test -e "$x"; then
+	if rm -rf $tmp && 
+		cp -r $x $tmp && 
+		mv $y $x && 
+		cp -r $tmp $y
+	then
+	    echo "switched $x and $y"
+	else
+	    echo "failed to finish switching $x and $y. Check $tmp for clobbered data"
+	    exit
+	fi
+    else
+	echo "$x does not exist in this directory. Skipping $y."
+    fi
+done

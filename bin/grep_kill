@@ -1,5 +1,16 @@
 #!/bin/bash
 
+if [ $1 == "-f" ]; then
+    grepstr="$2"
+    pid=$(ps aux | grep -i "$grepstr" | grep -v "grep" | sed 's/^[^[:space:]]\+[[:space:]]\+\([0-9]\+\).*/\1/')
+	for x in $pid; do
+	    #echo $x
+	    kill -9 $x
+	done
+    exit
+fi
+
+
 grepstr="$1"
 
 echo "The following programs will be killed:"

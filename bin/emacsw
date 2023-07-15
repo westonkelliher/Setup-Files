@@ -1,3 +1,0 @@
-alias emacs="emacs"
-emacs $@
-alias emacs="emacs -nw"

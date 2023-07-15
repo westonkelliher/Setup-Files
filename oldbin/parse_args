@@ -1,0 +1,26 @@
+#!/bin/bash
+
+args=()
+i=0
+for x in $@
+do
+    if [[ $x == -* ]]
+    then
+	option=$x
+    else
+	args+=("$x")
+    fi
+
+done	 
+
+echo "option $option"
+for i in ${!args[@]}
+do
+    echo "arg $i ${args[$i]}"
+done
+
+echo
+for arg in ${args[@]}
+do
+    echo $arg
+done

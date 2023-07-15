@@ -1,4 +1,0 @@
-#!/bin/bash
-
-svn diff $1 > /home/dale/temp/sd.diff
-emacs -nw /home/dale/temp/sd.diff

@@ -1,0 +1,1 @@
+for x in $(ls); do if [[ ! $x =~ "." ]]; then mv $x "$x.txt"; fi; done

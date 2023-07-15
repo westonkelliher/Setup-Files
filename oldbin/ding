@@ -1,0 +1,11 @@
+#!/bin/bash
+
+while true
+do
+    sleep 2400
+    echo ""
+    echo "########################################"
+    echo "#  Change working position or stretch  #"
+    echo "########################################"
+done
+

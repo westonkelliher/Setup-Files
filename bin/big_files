@@ -1,1 +1,0 @@
-find ~ -mindepth ${1-1} -maxdepth ${2-2} -type d -exec du -s {} + | sort -nr

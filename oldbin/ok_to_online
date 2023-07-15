@@ -1,0 +1,21 @@
+#!/bin/bash
+
+g=$(ps aux | grep gserial | grep -v grep)
+h=$(ps aux | grep "multi.*connect" | grep -v grep)
+
+if [[ $g ]]; then
+   echo "hanging serial connection:"
+   echo "$g"
+fi
+
+if [[ $h ]]; then
+    echo "possibly still connected to a target:"
+    echo "$h"
+fi
+
+q=$g$h
+
+if [[ $q == '' ]]; then
+    echo "ok to online"
+fi
+
