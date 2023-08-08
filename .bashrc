@@ -8,10 +8,15 @@ alias ls="ls --color=always"
 
 export PATH="$PATH:~/bin"
 
-source ~/bin/complete_*
-
 export BASE_DIR=$(cd ~; pwd)
 . "$HOME/.cargo/env"
+
+# autocompletions
+for file in ~/bin/complete_*; do
+    if [ -f "$file" ]; then
+	source $file
+    fi
+done
 
 # history
 export HISTSIZE=5000
