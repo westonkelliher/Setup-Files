@@ -13,7 +13,6 @@ source ~/bin/complete_*
 export BASE_DIR=$(cd ~; pwd)
 . "$HOME/.cargo/env"
 
-
 # history
 export HISTSIZE=5000
 export HISTFILESIZE=10000
