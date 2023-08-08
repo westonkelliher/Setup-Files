@@ -2,4 +2,4 @@
 
 target=$1
 shift
-grep -Inre $target --exclude-dir=.git --exclude-dir=target $@
+grep --color=always -Inre $target --exclude-dir=.git --exclude-dir=target $@
