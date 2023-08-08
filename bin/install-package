@@ -1,0 +1,14 @@
+#!/bin/bash
+
+sudo apt update
+sudo apt upgrade
+
+if ! dpkg -l $1| grep . -q; then
+    if ! apt-cache search $1 | grewp . -q; then
+	echo "!!! $1 package not found !!!"	>&2
+    fi
+    echo ">>> Installing $1 <<<"
+    sudo apt install $1
+else
+    echo "||| $1 is installed |||"
+fi
