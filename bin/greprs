@@ -1,0 +1,5 @@
+#!/bin/bash
+
+target=$1
+shift
+echo "grep -Inre $target --exclude-dir=.git --exclude-dir=target $@"
