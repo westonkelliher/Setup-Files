@@ -1,18 +1,22 @@
 #!/bin/bash
-for f in $(find ${1-.} | sed 's/.*\///')
+
+for path in $(find ${1-.})
 do
+    name="$(echo $path | sed 's/.*\///')"
+    
     # *~ file and #*# files
-    if [ -f "$f" ]; then
-	if [[ $f =~ ^\#.*\#$|~$ ]]; then
-	    echo "rmv $f"
-	    rmv $f
-	fi
+    if [[ -f $path ]]; then
+	    if [[ $name =~ ~$ ]]; then
+	        echo "rmv $path"
+	        rmv $path
+	    fi
     fi
+
     # .#* files
-    if [ -h "$f" ] && [ ! -e $f ]; then
-	if [[ $f =~ ^\.\# ]]; then
-	    echo "rmv $f"
-	    rmv $f
-	fi
+    if [[ -h "$path" ]] && [[ ! -e "$path" ]]; then
+	    if [[ $name =~ ^\.\# ]]; then
+	        echo "rmv $path"
+	        rmv $path
+	    fi
     fi
 done
