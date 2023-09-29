@@ -6,7 +6,7 @@ do
     
     # *~ file and #*# files
     if [[ -f $path ]]; then
-	    if [[ $name =~ ~$ ]]; then
+	    if [[ $name =~ ~$|^#.*#$ ]]; then
 	        echo "rmv $path"
 	        rmv $path
 	    fi
