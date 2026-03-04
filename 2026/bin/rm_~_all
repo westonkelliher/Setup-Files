@@ -1,0 +1,30 @@
+#!/bin/bash
+
+for path in $(find ${1-.} -maxdepth 3)
+do
+    name="$(echo $path | sed 's/.*\///')"
+    
+    # *~ file and #*# files
+    if [[ -f $path ]]; then
+	    if [[ $name =~ ~$|^#.*#$ ]]; then
+	        echo "rmv $path"
+            if [[ $2 == "--hard" ]]; then
+                rm $path
+            else
+	            rmv $path
+            fi
+	    fi
+    fi
+
+    # .#* files
+    if [[ -h "$path" ]] && [[ ! -e "$path" ]]; then
+	    if [[ $name =~ ^\.\# ]]; then
+	        echo "rmv $path"
+            if [[ $2 == "--hard" ]]; then
+                rm $path
+            else
+	            rmv $path
+            fi
+	    fi
+    fi
+done

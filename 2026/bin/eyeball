@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# eyeball — open a markdown file in the browser, prettified with pandoc and Cashew-style CSS.
+# Usage: eyeball file.md
+
+set -e
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: eyeball <file.md>" >&2
+  exit 1
+fi
+
+MD="$1"
+if [[ ! -f "$MD" ]]; then
+  echo "eyeball: no such file: $MD" >&2
+  exit 1
+fi
+
+if ! command -v pandoc &>/dev/null; then
+  echo "eyeball: pandoc is not installed" >&2
+  exit 1
+fi
+
+# Resolve script dir (works if script is symlinked: use real path so CSS lives next to real script)
+SCRIPT_PATH="${BASH_SOURCE[0]}"
+[[ -L "$SCRIPT_PATH" ]] && SCRIPT_PATH="$(readlink -f "$SCRIPT_PATH")"
+SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
+CSS="${SCRIPT_DIR}/eyeball.css"
+
+if [[ ! -f "$CSS" ]]; then
+  FALLBACK="${XDG_DATA_HOME:-$HOME/.local/share}/eyeball/eyeball.css"
+  if [[ -f "$FALLBACK" ]]; then
+    CSS="$FALLBACK"
+  else
+    echo "eyeball: stylesheet not found (expected $CSS or $FALLBACK)" >&2
+    exit 1
+  fi
+fi
+
+OUT="${TMPDIR:-/tmp}/eyeball-preview.html"
+TITLE="$(basename "$MD" .md)"
+
+pandoc -s \
+  -c "$CSS" \
+  --metadata "title=$TITLE" \
+  --highlight-style=zenburn \
+  -o "$OUT" \
+  "$MD"
+
+echo "$MD" >> ~/bin/.eyeball_history
+google-chrome "$OUT" 2>/dev/null || echo "Open: $OUT"

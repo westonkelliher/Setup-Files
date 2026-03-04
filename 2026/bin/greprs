@@ -1,0 +1,5 @@
+#!/bin/bash
+
+target="$1"
+shift
+grep --color=always -Inre "$target" --exclude-dir=.git --exclude-dir=target --exclude=*.diff --exclude=*~ $@ 
