@@ -1,0 +1,206 @@
+/* Cashew-style dark theme for pandoc HTML (from message.txt spec) */
+
+:root {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #333;
+  --bg-elevated: #3a3a3a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #999;
+  --text-tertiary: #999;
+  --border: #444;
+  --border-light: #555;
+  --accent: #5eb3ff;
+  --accent-hover: #7ac3ff;
+  --accent-active: #3a8eef;
+  --accent-glow: rgba(94, 179, 255, 0.5);
+  --gradient-start: #667eea;
+  --gradient-end: #764ba2;
+  --success: #51cf66;
+  --warning: #ffd43b;
+  --error: #ff6b6b;
+  --info: #5eb3ff;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.4);
+  --radius: 8px;
+  --radius-sm: 4px;
+  --transition: 0.3s ease;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Courier New', monospace;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin: 0;
+  padding: 2rem;
+  max-width: 52rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Accent strip under effective "header" (first heading) */
+body::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), transparent 60%);
+  margin: -2rem -2rem 2rem -2rem;
+  border-radius: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--accent);
+  font-weight: bold;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.25em;
+}
+
+/* Document title (filename) at top — keep smaller */
+#title-block-header .title,
+header#title-block-header h1 {
+  font-size: 0.8rem;
+  margin-top: 0;
+  font-weight: bold;
+  text-align: right;
+}
+
+h1:not(.title) { font-size: 1.75rem; margin-top: 0; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.15rem; }
+h4, h5, h6 { font-size: 1rem; }
+
+p {
+  margin: 0.75em 0;
+  font-size: 15px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: var(--transition);
+}
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+strong { font-weight: bold; }
+em { font-style: italic; }
+
+/* Code */
+code {
+  background: var(--bg-tertiary);
+  color: var(--accent);
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+  border: 1px solid var(--border);
+}
+
+pre {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+/* Pandoc sourceCode blocks */
+.sourceCode {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+.sourceCode code { background: none; border: none; padding: 0; }
+
+/* Blockquote */
+blockquote {
+  margin: 1em 0;
+  padding: 0.5em 0 0.5em 1rem;
+  border-left: 4px solid var(--accent);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 14px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+th, td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+th {
+  background: var(--bg-tertiary);
+  color: var(--accent);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-elevated); }
+
+/* Lists */
+ul, ol {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+}
+
+li {
+  margin: 0.25em 0;
+}
+
+li::marker { color: var(--accent); }
+
+/* Horizontal rule */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, var(--border), var(--accent), var(--border));
+  margin: 2em 0;
+}
+
+/* Scrollbar (webkit) */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
